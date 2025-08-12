@@ -1,54 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/todo_provider.dart';
+import 'ui/todo_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+/// PUBLIC_INTERFACE
 class MyApp extends StatelessWidget {
+  /// Root of the Todo Flutter app. Sets up theming and providers.
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AI Build Tool',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'todo_flutter_frontend'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'todo_flutter_frontend App is being generated...',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            CircularProgressIndicator(),
-          ],
+    const figmaPrimary = Color(0xFF9395D3);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TodoProvider()),
+      ],
+      child: MaterialApp(
+        title: 'TODO APP',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: figmaPrimary, brightness: Brightness.light),
+          useMaterial3: true,
+          scaffoldBackgroundColor: const Color(0xFFD6D7EF),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: figmaPrimary,
+            foregroundColor: Colors.white,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: figmaPrimary,
+            foregroundColor: Colors.white,
+          ),
         ),
+        home: const TodoPage(),
       ),
     );
   }
